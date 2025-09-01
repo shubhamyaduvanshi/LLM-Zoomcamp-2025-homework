@@ -1,0 +1,20 @@
+FROM agrigorev/zoomcamp-model:mlops-2024-3.10.13-slim
+
+RUN apt-get update && apt-get install -y gcc && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN pip install -U pip
+RUN pip install pipenv
+
+WORKDIR /app
+
+COPY ["Pipfile", "Pipfile.lock", "./"]
+
+RUN pipenv install --system --deploy
+
+COPY ["starter-Q1.py", "./"]
+
+RUN mkdir -p output
+
+CMD ["python", "starter-Q1.py", "2023", "05"]
+
+#docker build -t ride-duration-prediction:v1 .
+#docker run -it --rm ride-duration-prediction:v1
